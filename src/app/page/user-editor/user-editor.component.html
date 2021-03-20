@@ -1,0 +1,85 @@
+<div class="row">
+  <div *ngIf="user$ | async as user" class="col-6 offset-3 mt-3">
+    <h2>Update / Create User</h2>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm, user)">
+      <input name="id" type="hidden" [(ngModel)]="user.id" />
+      <div class="form-group">
+        <label>Name</label>
+        <!-- Validation: min 8 char, max 40 char, required -->
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          [(ngModel)]="user.name"
+          pattern=".{8,40}"
+          required
+        />
+        <div
+          [hidden]="
+            userForm.controls.name?.valid || userForm.controls.name?.pristine
+          "
+          class="message__error"
+        >
+          You must enter a minimum of 8 and a maximum of 40 characters!
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <!-- Validation: valid email, required.
+          Help: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript -->
+        <input
+          class="form-control"
+          type="text"
+          name="email"
+          [(ngModel)]="user.email"
+          [pattern]="emailPattern"
+          required
+        />
+        <div
+          [hidden]="
+            userForm.controls.email?.valid || userForm.controls.email.pristine
+          "
+          class="error-message"
+        >
+          Add valid email
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <!-- Validation: min 8 char, max 100 char, required -->
+        <input
+          class="form-control"
+          type="text"
+          name="address"
+          [(ngModel)]="user.address"
+          pattern=".{8,100}"
+          required
+        />
+        <div
+          [hidden]="
+            userForm.controls.address?.valid ||
+            userForm.controls.address?.pristine
+          "
+          class="message__error"
+        >
+          You must enter a minimum of 8 and a maximum of 100 characters!
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Active</label>
+        <!-- No validation. -->
+        <select [(ngModel)]="user.active" name="active" class="form-control">
+          <option [ngValue]="true">active</option>
+          <option [ngValue]="false">inactive</option>
+        </select>
+      </div>
+      <button
+        [disabled]="userForm.invalid"
+        type="submit"
+        class="btn btn-primary btn-block mt-5"
+      >
+        <i class="fa fa-save"></i>
+      </button>
+    </form>
+  </div>
+</div>

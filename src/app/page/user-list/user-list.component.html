@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-12 mt-2">
+    <h2>User List</h2>
+    <div class="col-6 offset-3">
+      <input
+        (keyup)="onChangePhrase($event)"
+        class="form-control mr-sm-2 mb-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th (click)="onColumnSelect('id')">#</th>
+          <th (click)="onColumnSelect('name')">Name</th>
+          <th (click)="onColumnSelect('email')">Email</th>
+          <th (click)="onColumnSelect('address')">Address</th>
+          <th (click)="onColumnSelect('active')">Active</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let user of users$
+              | search: phrase:'name'
+              | sort: columnKey:direction
+          "
+        >
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.active }}</td>
+          <td>
+            <div class="btn-group">
+              <button [routerLink]="['user/' + 0]" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+              </button>
+              <button [routerLink]="['user/' + user.id]" class="btn btn-info">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button (click)="onDelete(user)" class="btn btn-danger">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
