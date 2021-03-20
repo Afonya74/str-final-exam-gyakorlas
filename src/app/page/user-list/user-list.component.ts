@@ -33,14 +33,16 @@ export class UserListComponent implements OnInit {
   onDelete(user: User): void {
     alert('Are you sure you want to delete this user?');
     this.userService.deleteUser(user).subscribe(() => {
-      this.userService.getAll();
+      this.userService
+        .getAll()
+        .pipe(finalize(() => {}))
+        .subscribe(() => {});
     });
     this.refreshPage();
   }
 
   onChangePhrase(event: Event): void {
     this.phrase = (event.target as HTMLInputElement).value;
-    this.refreshPage();
   }
 
   onColumnSelect(key: string): void {
